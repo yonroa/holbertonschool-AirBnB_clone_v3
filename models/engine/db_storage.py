@@ -80,7 +80,7 @@ class DBStorage:
         or None if not found"""
         try:
             return str(self.__session.query(cls).filter(cls.id == id).first())
-        except:
+        except Exception:
             return None
 
     def count(self, cls=None):
