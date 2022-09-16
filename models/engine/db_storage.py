@@ -82,11 +82,10 @@ class DBStorage:
             return str(self.__session.query(cls).filter(cls.id == id).first())
         except:
             return None
-    
+
     def count(self, cls=None):
         """Returns the number of objects in storage matching the given class.
         If no class is passed, returns the count of all objects in storage.
-        """
         counter = 0
         if cls in classes:
             objs = self.__session.query(classes[cls]).all()
@@ -95,4 +94,5 @@ class DBStorage:
             for clase in classes:
                 objs = self.__session.query(classes[clase]).all()
                 counter += len(objs)
-        return counter
+        return counter"""
+        return (len(self.all(cls)))
