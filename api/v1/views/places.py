@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 """Update states"""
 
-from tkinter import Place
 from flask import abort, request, jsonify, make_response
 from api.v1.views import app_views
 from models import storage
