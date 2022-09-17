@@ -18,7 +18,7 @@ def get_user():
 
 
 @app_views.route("/users/<string:user_id>", strict_slashes=False)
-def one_amenity(user_id):
+def one_user(user_id):
     """Method for one user"""
     user = storage.get(User, user_id)
     if user is None:
@@ -44,8 +44,10 @@ def user_post():
     data = request.get_json()
     if not data:
         abort(400, description="Not a JSON")
-    if "name" not in data:
-        abort(400, description="Missing name")
+    if "email" not in data:
+        abort(400, description="Missing email")
+    if "password" not in data:
+        abort(400, description="Misssing password")
     instance = User(**data)
     instance.save()
     return make_response(jsonify(instance.to_dict()), 201)
