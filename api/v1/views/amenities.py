@@ -12,7 +12,7 @@ from models.amenity import Amenity
 def get_amenity():
     """Method for amenity"""
     new_list = []
-    for amenity in storage.all("Amenity").values():
+    for amenity in storage.all(Amenity).values():
         new_list.append(amenity.to_dict())
     return jsonify(new_list)
 
@@ -20,7 +20,7 @@ def get_amenity():
 @app_views.route("/amenities/<string:amenity_id>", strict_slashes=False)
 def one_amenity(amenity_id):
     """Method for one amenity"""
-    amanity = storage.get(Amenity, amenity_id)
+    amenity = storage.get(Amenity, amenity_id)
     if amenity is None:
         abort(404)
     return jsonify(amenity.to_dict())
