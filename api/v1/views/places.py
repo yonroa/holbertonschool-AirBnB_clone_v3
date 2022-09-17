@@ -42,7 +42,7 @@ def place_delete(place_id):
     return make_response(jsonify(({})), 200)
 
 
-@app_views.route('/cities/<string:city_id>/places', methods=['POST'],
+@app_views.route("/cities/<string:city_id>/places", methods=['POST'],
                  strict_slashes=False)
 def place_post(city_id):
     """Method that creates a place"""
