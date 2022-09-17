@@ -4,6 +4,7 @@
 from flask import abort, request, jsonify, make_response
 from api.v1.views import app_views
 from models import storage
+from models import amenity
 from models.amenity import Amenity
 
 
@@ -11,18 +12,18 @@ from models.amenity import Amenity
 def get_amenity():
     """Method for amenity"""
     new_list = []
-    for state in storage.all("Amenity").values():
-        new_list.append(state.to_dict())
+    for amenity in storage.all("Amenity").values():
+        new_list.append(amenity.to_dict())
     return jsonify(new_list)
 
 
 @app_views.route("/amenities/<string:amenity_id>", strict_slashes=False)
 def one_amenity(amenity_id):
     """Method for one amenity"""
-    state = storage.get(Amenity, amenity_id)
-    if state is None:
+    amanity = storage.get(Amenity, amenity_id)
+    if amenity is None:
         abort(404)
-    return jsonify(state.to_dict())
+    return jsonify(amenity.to_dict())
 
 
 @app_views.route("/amenities/<string:amenity_id>", methods=["DELETE"],
