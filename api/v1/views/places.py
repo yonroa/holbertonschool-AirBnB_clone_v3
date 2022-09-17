@@ -58,7 +58,7 @@ def place_post(city_id):
     if not user:
         abort(404)
     if "name" not in data:
-        abort(400, description="Missing name")   
+        abort(400, description="Missing name")
     data['city_id'] = city_id
     instance = Place(**data)
     instance.save()
