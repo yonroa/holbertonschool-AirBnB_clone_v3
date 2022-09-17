@@ -41,7 +41,8 @@ def city_delete(city_id):
     return make_response(jsonify(({})), 200)
 
 
-@app_views.route('/states/<string:state_id>/cities', methods=['POST'], strict_slashes=False)
+@app_views.route('/states/<string:state_id>/cities', methods=['POST'],
+                 strict_slashes=False)
 def city_post(state_id):
     """Method that creates a city"""
     state = storage.get(State, state_id)
