@@ -10,6 +10,8 @@ app = flask.Flask(__name__)
 
 
 app.register_blueprint(app_views, url_prefix='/api/v1')
+
+
 @app.teardown_appcontext
 def recover_api(self):
     """Method app for api"""

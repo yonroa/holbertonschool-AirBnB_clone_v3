@@ -79,7 +79,7 @@ class DBStorage:
         """Returns the object based on the class and its ID,
         or None if not found"""
         try:
-            return str(self.__session.query(cls).filter(cls.id == id).first())
+            return (self.__session.query(cls).filter(cls.id == id).first())
         except Exception:
             return None
 

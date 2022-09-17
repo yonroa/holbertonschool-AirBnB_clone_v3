@@ -1,16 +1,13 @@
 #!/usr/bin/python3
 """Update states"""
 
-from crypt import methods
-from os import abort
-from unicodedata import name
-from urllib import request
+from flask import abort, request, jsonify, make_response
 from api.v1.views import app_views
 from models import storage
 from models.state import State
-from flask import jsonify
 
-@app_views.route("/states")
+
+@app_views.route("/states", strict_slashes=False)
 def get_state():
     """Method for state"""
     new_list = []
@@ -19,45 +16,45 @@ def get_state():
     return jsonify(new_list)
 
 
-@app_views.route("/states/<string:state_id>")
+@app_views.route("/states/<string:state_id>", strict_slashes=False)
 def one_state(state_id):
     """Method for one state"""
-    state = storage.get("State", state_id)
+    state = storage.get(State, state_id)
     if state is None:
         abort(404)
     return jsonify(state.to_dict())
 
 
-@app_views.route("/states/<string:state_id>", methods=["DELETE"])
+@app_views.route("/states/<string:state_id>", methods=["DELETE"],
+                 strict_slashes=False)
 def state_delete(state_id):
     """Method that deletes a state object"""
-    state = storage.get("State", state_id)
+    state = storage.get(State, state_id)
     if not state:
         abort(404)
     storage.delete(state)
     storage.save()
-    return jsonify(({}), 200)
+    return make_response(jsonify(({})), 200)
 
 
-@app_views.route('/states', methods=['POST'])
+@app_views.route('/states', methods=['POST'], strict_slashes=False)
 def state_post():
     """Method that creates a state"""
     data = request.get_json()
     if not data:
         abort(400, description="Not a JSON")
-
-    if name not in data:
+    if "name" not in data:
         abort(400, description="Missing name")
-
     instance = State(**data)
     instance.save()
-    return jsonify(instance.to_dict(), 201)
+    return make_response(jsonify(instance.to_dict()), 201)
 
 
-@app_views.route("/states/<string:state_id>", methods=['PUT'])
+@app_views.route("/states/<string:state_id>", methods=['PUT'],
+                 strict_slashes=False)
 def state_put(state_id):
     """Method that puts a state"""
-    state = storage.get("State", state_id)
+    state = storage.get(State, state_id)
     data = request.get_json()
     if not state:
         abort(404)
@@ -70,4 +67,4 @@ def state_put(state_id):
         if key not in ignore:
             setattr(state, key, value)
         storage.save()
-        return jsonify(state.todict(), 200)
+        return make_response(jsonify(state.to_dict()), 200)
