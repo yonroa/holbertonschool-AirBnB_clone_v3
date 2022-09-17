@@ -11,8 +11,8 @@ from models.amenity import Amenity
 def get_amenity():
     """Method for amenity"""
     new_list = []
-    for state in storage.all("Amenity").values():
-        new_list.append(state.to_dict())
+    for amenity in storage.all("Amenity").values():
+        new_list.append(amenity.to_dict())
     return jsonify(new_list)
 
 
