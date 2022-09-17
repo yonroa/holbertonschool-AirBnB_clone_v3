@@ -18,11 +18,12 @@ def get_reviews(place_id):
     reviews = [review.to_dict() for review in place.reviews]
     return jsonify(reviews)
 
+
 @app_views.route("reviews/<string:review_id>", strict_slashes=False)
 def one_review(review_id):
     """Method for one review"""
     review = storage.get(Review, review_id)
-    if review is None:
+    if not review:
         abort(404)
     return jsonify(review.to_dict())
 
@@ -39,22 +40,29 @@ def review_delete(review_id):
     return make_response(jsonify(({})), 200)
 
 
-@app_views.route('places/<place_id>/reviews', methods=['POST'], strict_slashes=False)
+@app_views.route('places/<place_id>/reviews', methods=['POST'],
+                 strict_slashes=False)
 def review_post(place_id):
     """Method that creates a review"""
-    data = request.get_json()
     place = storage.get(Place, place_id)
+    data = request.get_json()
     user = storage.get(User, data['user_id'])
-    if place is None:
+
+    if not place:
         abort(404)
+
     if not data:
         abort(400, description="Not a JSON")
+
     if "user_id" not in data:
         abort(400, description="Missing user_id")
-    if user is None:
+
+    if not user:
         abort(404)
+
     if "text" not in data:
         abort(400, description="Missing text")
+
     data["place_id"] = place_id
     instance = Review(**data)
     instance.save()
@@ -67,8 +75,10 @@ def review_put(review_id):
     """Method that puts a review"""
     review = storage.get(Review, review_id)
     data = request.get_json()
+
     if not review:
         abort(404)
+
     if not data:
         abort(400, description="Not a JSON")
 
