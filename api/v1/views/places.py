@@ -52,13 +52,13 @@ def place_post(city_id):
         abort(404)
     if not data:
         abort(400, description="Not a JSON")
-    if "name" not in data:
-        abort(400, description="Missing name")
     if "user_id" not in data:
         abort(400, description="Missing user_id")
     user = storage.get(User, data['user_id'])
     if not user:
         abort(404)
+    if "name" not in data:
+        abort(400, description="Missing name")   
     data['city_id'] = city_id
     instance = Place(**data)
     instance.save()
