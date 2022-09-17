@@ -15,6 +15,7 @@ def recover_api(self):
     """Method app for api"""
     storage.close()
 
+
 @app.errorhandler(404)
 def page_not_found(error):
     return flask.make_response(flask.jsonify({"error": "Not found"}), 404)
