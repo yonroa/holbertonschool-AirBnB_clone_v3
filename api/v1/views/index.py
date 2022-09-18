@@ -24,10 +24,18 @@ def api_return():
     return jsonify({'status': 'OK'})
 
 
-@app_views.route("/stats")
+@app_views.route("/stats", strict_slashes=False)
 def objects_count():
     """retrieves the number of each objects by type"""
-    new_dict = {}
-    for k, v in classes.items():
-        new_dict[k] = storage.count(v)
-    return new_dict
+    response = {}
+    PLURALS = {
+        "Amenity": "amenities",
+        "City": "cities",
+        "Place": "places",
+        "Review": "reviews",
+        "State": "states",
+        "User": "users"
+    }
+    for key, value in PLURALS.items():
+        response[value] = storage.count(key)
+    return jsonify(response)
