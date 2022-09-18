@@ -78,6 +78,8 @@ class DBStorage:
     def get(self, cls, id):
         """Returns the object based on the class and its ID,
         or None if not found"""
+        if type(cls) is str:
+            cls = classes[cls]
         try:
             return (self.__session.query(cls).filter(cls.id == id).first())
         except Exception:

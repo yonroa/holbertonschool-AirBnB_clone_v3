@@ -12,7 +12,7 @@ from models.user import User
 @app_views.route("places/<string:place_id>/reviews", strict_slashes=False)
 def get_reviews(place_id):
     """Method that reviews a place"""
-    place = storage.get(Place, place_id)
+    place = storage.get("Place", place_id)
     if not place:
         abort(404)
     reviews = [review.to_dict() for review in place.reviews]
@@ -22,7 +22,7 @@ def get_reviews(place_id):
 @app_views.route("reviews/<string:review_id>", strict_slashes=False)
 def one_review(review_id):
     """Method for one review"""
-    review = storage.get(Review, review_id)
+    review = storage.get("Review", review_id)
     if not review:
         abort(404)
     return jsonify(review.to_dict())
@@ -32,7 +32,7 @@ def one_review(review_id):
                  strict_slashes=False)
 def review_delete(review_id):
     """Method that deletes a review object"""
-    review = storage.get(Review, review_id)
+    review = storage.get("Review", review_id)
     if not review:
         abort(404)
     storage.delete(review)
@@ -44,7 +44,7 @@ def review_delete(review_id):
                  strict_slashes=False)
 def review_post(place_id):
     """Method that creates a review"""
-    place = storage.get(Place, place_id)
+    place = storage.get("Place", place_id)
     data = request.get_json()
     user = storage.get(User, data['user_id'])
 
@@ -73,7 +73,7 @@ def review_post(place_id):
                  strict_slashes=False)
 def review_put(review_id):
     """Method that puts a review"""
-    review = storage.get(Review, review_id)
+    review = storage.get("Review", review_id)
     data = request.get_json()
 
     if not review:

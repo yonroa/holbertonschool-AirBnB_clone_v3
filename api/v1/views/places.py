@@ -13,7 +13,7 @@ from models.user import User
 def get_places(city_id):
     """Method for list all places from city"""
     new_list = []
-    city = storage.get(City, city_id)
+    city = storage.get("City", city_id)
     if city is None:
         abort(404)
     for place in city.places:
@@ -24,7 +24,7 @@ def get_places(city_id):
 @app_views.route("/places/<string:place_id>", strict_slashes=False)
 def one_place(place_id):
     """Method for list one place"""
-    place = storage.get(Place, place_id)
+    place = storage.get("Place", place_id)
     if place is None:
         abort(404)
     return jsonify(place.to_dict())
@@ -34,7 +34,7 @@ def one_place(place_id):
                  strict_slashes=False)
 def place_delete(place_id):
     """Method that deletes a place object"""
-    place = storage.get(Place, place_id)
+    place = storage.get("Place", place_id)
     if not place:
         abort(404)
     storage.delete(place)
@@ -46,7 +46,7 @@ def place_delete(place_id):
                  strict_slashes=False)
 def place_post(city_id):
     """Method that creates a place"""
-    city = storage.get(City, city_id)
+    city = storage.get("City", city_id)
     data = request.get_json()
     if not city:
         abort(404)
@@ -54,7 +54,7 @@ def place_post(city_id):
         abort(400, description="Not a JSON")
     if "user_id" not in data:
         abort(400, description="Missing user_id")
-    user = storage.get(User, data['user_id'])
+    user = storage.get("User", data['user_id'])
     if not user:
         abort(404)
     if "name" not in data:
@@ -69,7 +69,7 @@ def place_post(city_id):
                  strict_slashes=False)
 def place_put(place_id):
     """Method that puts a place"""
-    place = storage.get(Place, place_id)
+    place = storage.get("Place", place_id)
     data = request.get_json()
     if not place:
         abort(404)
@@ -80,6 +80,13 @@ def place_put(place_id):
 
     for key, value in data.items():
         if key not in ignore:
+            try:
+                int(value)
+            except:
+                try:
+                    float(value)
+                except:
+                    continue
             setattr(place, key, value)
         storage.save()
         return make_response(jsonify(place.to_dict()), 200)

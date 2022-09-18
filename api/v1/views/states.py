@@ -19,7 +19,7 @@ def get_state():
 @app_views.route("/states/<string:state_id>", strict_slashes=False)
 def one_state(state_id):
     """Method for one state"""
-    state = storage.get(State, state_id)
+    state = storage.get("State", state_id)
     if state is None:
         abort(404)
     return jsonify(state.to_dict())
@@ -29,7 +29,7 @@ def one_state(state_id):
                  strict_slashes=False)
 def state_delete(state_id):
     """Method that deletes a state object"""
-    state = storage.get(State, state_id)
+    state = storage.get("State", state_id)
     if not state:
         abort(404)
     storage.delete(state)
@@ -54,7 +54,7 @@ def state_post():
                  strict_slashes=False)
 def state_put(state_id):
     """Method that puts a state"""
-    state = storage.get(State, state_id)
+    state = storage.get("State", state_id)
     data = request.get_json()
     if not state:
         abort(404)
