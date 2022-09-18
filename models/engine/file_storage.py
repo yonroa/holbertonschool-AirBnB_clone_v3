@@ -74,7 +74,7 @@ class FileStorage:
         or None if not found"""
         key = "{}.{}".format(cls.__name__, id)
         if key in self.__objects:
-            return str(self.__objects[key])
+            return self.__objects[key]
         else:
             return None
 
