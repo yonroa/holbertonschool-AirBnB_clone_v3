@@ -86,7 +86,7 @@ def place_put(place_id):
                 try:
                     float(value)
                 except:
-                    continue
+                    str(value)
             setattr(place, key, value)
         storage.save()
         return make_response(jsonify(place.to_dict()), 200)
